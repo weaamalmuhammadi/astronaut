@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Astronaut in your room</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Figtree:wght@400;600&display=swap" rel="stylesheet">
+<script type="module" src="https://cdn.jsdelivr.net/npm/@google/model-viewer@4.3.1/dist/model-viewer.min.js"></script>
+<style>
+:root {
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  --bg: #DCE3EA;
+  --bg-deep: #C4CFDA;
+  --ink: #1C2530;
+  --muted: #56636F;
+  --orange: #FF4F00;
+  --on-orange: #FFFFFF;
+  --panel: rgba(255,255,255,0.72);
+  --display: "Bricolage Grotesque", "Avenir Next", "Segoe UI", system-ui, sans-serif;
+  --body: "Figtree", "Helvetica Neue", Arial, system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #18202A; --bg-deep: #0F151C; --ink: #E6ECF2; --muted: #9AA7B4;
+    --panel: rgba(24,32,42,0.78);
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #18202A; --bg-deep: #0F151C; --ink: #E6ECF2; --muted: #9AA7B4;
+  --panel: rgba(24,32,42,0.78);
+}
+*, *::before, *::after { box-sizing: inherit; }
+html { height: 100%; scroll-padding-top: env(safe-area-inset-top, 0px); }
+body {
+  height: 100%; margin: 0;
+  background: radial-gradient(120% 80% at 50% 35%, var(--bg) 0%, var(--bg-deep) 100%);
+  background-color: var(--bg);
+  color: var(--ink);
+  font-family: var(--body);
+  overflow: hidden;
+}
+.stage { position: relative; height: 100%; display: flex; flex-direction: column; }
+header {
+  padding: 1.25rem 1.5rem 0;
+  max-width: 34rem;
+  position: relative; z-index: 2;
+}
+h1 {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: clamp(2rem, 7vw, 3.4rem);
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+  margin: 0 0 0.5rem;
+}
+header p { margin: 0; color: var(--muted); font-size: 1rem; line-height: 1.45; max-width: 26rem; }
+
+model-viewer {
+  flex: 1; width: 100%; min-height: 0;
+  --poster-color: transparent;
+  --progress-bar-color: var(--orange);
+  outline: none;
+}
+model-viewer:focus-visible { outline: 3px solid var(--orange); outline-offset: -3px; }
+
+.ar-btn {
+  position: absolute; left: 50%; bottom: 1.25rem; transform: translateX(-50%);
+  display: inline-flex; align-items: center; gap: 0.6rem;
+  font-family: var(--display); font-weight: 700; font-size: 1.15rem;
+  padding: 1rem 1.6rem; border: 0; border-radius: 999px;
+  background: var(--orange); color: var(--on-orange);
+  box-shadow: 0 10px 30px -8px rgba(255,79,0,0.6);
+  cursor: pointer; white-space: nowrap;
+}
+.ar-btn:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
+.ar-btn svg { width: 1.4rem; height: 1.4rem; }
+
+.note {
+  position: absolute; left: 50%; bottom: 1.25rem; transform: translateX(-50%);
+  width: min(26rem, calc(100% - 2rem));
+  background: var(--panel); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  border-radius: 1rem; padding: 0.9rem 1.1rem;
+  font-size: 0.95rem; line-height: 1.4; color: var(--ink);
+}
+.note strong { font-weight: 600; }
+.note[hidden] { display: none; }
+
+.status {
+  position: absolute; top: 1rem; left: 50%; transform: translateX(-50%);
+  background: var(--panel); border-radius: 999px; padding: 0.5rem 1rem;
+  font-size: 0.9rem; z-index: 3;
+}
+.status[hidden] { display: none; }
+.hint-gesture { color: var(--muted); font-size: 0.85rem; text-align: center; padding: 0 1rem 0.5rem; }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+</style>
+</head>
+<body>
+<div class="stage">
+  <header>
+    <h1>Put an astronaut in your room</h1>
+    <p>Drag to spin it around, pinch to zoom. On a phone, tap the orange button to see it life-size through your camera.</p>
+  </header>
+
+  <model-viewer id="mv"
+    src="Astronaut.glb"
+    alt="A 3D model of an astronaut in a white spacesuit"
+    ar ar-modes="webxr scene-viewer quick-look" ar-scale="auto"
+    camera-controls touch-action="pan-y"
+    auto-rotate auto-rotate-delay="1500" rotation-per-second="20deg"
+    shadow-intensity="1" exposure="1" environment-image="neutral"
+    camera-orbit="30deg 75deg auto">
+    <button slot="ar-button" class="ar-btn" type="button">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2 3 7v10l9 5 9-5V7z"/><path d="m3 7 9 5 9-5"/><path d="M12 12v10"/></svg>
+      View in your room
+    </button>
+    <div class="status" id="status" hidden></div>
+  </model-viewer>
+
+  <div class="note" id="noAr" hidden>
+    <strong>AR isn't available on this device.</strong> Open this page on an iPhone or a recent Android phone to place the astronaut in your space. You can still rotate and zoom it here.
+  </div>
+</div>
+
+<script>
+(function () {
+  var mv = document.getElementById('mv');
+  var noAr = document.getElementById('noAr');
+  var status = document.getElementById('status');
+
+  function checkAR() {
+    customElements.whenDefined('model-viewer').then(function () {
+      if (!mv.canActivateAR) noAr.hidden = false;
+    });
+  }
+  mv.addEventListener('load', checkAR);
+
+  mv.addEventListener('ar-status', function (e) {
+    var s = e.detail.status;
+    if (s === 'session-started') { status.textContent = 'Point your camera at the floor and move slowly'; status.hidden = false; }
+    else if (s === 'object-placed' || s === 'not-presenting') { status.hidden = true; }
+    else if (s === 'failed') { status.textContent = 'AR couldn\u2019t start. Try opening this page directly in Chrome or Safari.'; status.hidden = false; }
+  });
+
+  mv.addEventListener('error', function () {
+    noAr.innerHTML = '<strong>The model didn\u2019t load.</strong> Refresh the page to try again.';
+    noAr.hidden = false;
+  });
+})();
+</script>
+</body>
+</html>
